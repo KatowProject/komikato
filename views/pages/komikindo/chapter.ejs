@@ -1,0 +1,66 @@
+<%- include('../../layout/header') %>
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <p>
+        <h2 class="text-justify">
+            <%= chapter_name %>
+        </h2>
+        </p>
+    </div>
+    <hr>
+
+    <script>
+        document.title = "<%= chapter_name %>";
+    </script>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (chapter.previous !=null) { %>
+                        <a href='/komikindo/chapter/<%=chapter.previous%>'
+                            class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (chapter.next !=null) { %>
+                                    <a href='/komikindo/chapter/<%chapter.next%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <% chapter_images.forEach(a=> { %>
+            <img src='<%= a %>' class='img-fluid' alt='Responsive image'>
+            <% }) %>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (chapter.previous !=null) { %>
+                        <a href='/komikindo/chapter/<%=chapter.previous%>'
+                            class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (chapter.next !=null) { %>
+                                    <a href='/komikindo/chapter/<%chapter.next%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../layout/footer') %>

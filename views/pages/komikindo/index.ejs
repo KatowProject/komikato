@@ -1,0 +1,57 @@
+<%- include('../../layout/header') %>
+    <div class="row mt-4 justify-content-center">
+        <div class="col">
+            <h1 class="text-center">Home</h1>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Title...." id="search-input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="button" onClick="getSearch('komikindo')">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <h3 class="text-center"> Newest Manga </h3>
+    <hr>
+    <div id="manga-list" class="row">
+        <% body.new_update.forEach(a=> { %>
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="<%= a.thumb %>" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%= a.name %>
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="komikindo" data-endpoint=<%=a.link.endpoint %>
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <br>
+    <hr>
+
+    <h3 class="text-center"> Popular Mangas </h3>
+    <hr>
+    <div id="manga-list" class="row">
+        <% body.recent_popular.forEach(a=> { %>
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="<%= a.thumb %>" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%= a.name %>
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="komikindo" data-endpoint=<%=a.link.endpoint %>
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+    <%- include('../../layout/footer') %>

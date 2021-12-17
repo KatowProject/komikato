@@ -1,0 +1,36 @@
+<%- include('../../layout/header') %>
+    <div class="row mt-4 justify-content-center">
+        <div class="col">
+            <h1 class="text-center">Home</h1>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Title...." id="search-input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="button" onClick="getSearch('mangabat')">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <h3 class="text-center"> Newest Manga </h3>
+    <hr>
+    <div id="manga-list" class="row">
+        <% data.forEach(a=> { %>
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="<%= a.thumb %>" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%= a.title %>
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="mangabat" data-endpoint=<%=a.link.endpoint %>
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+    <hr>
+
+    <%- include('../../layout/footer') %>

@@ -1,0 +1,92 @@
+<%- include('../../layout/header') %>
+
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <p class="flex-center">
+        <h2>
+            <%=title%>
+        </h2>
+        </p>
+    </div>
+    <hr>
+    <br>
+    <div class="row mt-4" id="video-player">
+        <video id="my-video" class="video-js mx-auto" controls preload="auto" width="800" height="480"
+            poster="https://cdn.discordapp.com/emojis/746208811848695849.png" data-setup="{}">
+            <source src="<%=stream_link%>" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="row mt-3 mx-auto" style="width: 200px;">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <a class="btn btn-secondary">Mirror</a>
+
+            <% for (let mirror of mirror_stream_link) { %>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= mirror.name %>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <% for (let stream of mirror.data) { %>
+                            <a class="dropdown-item" href="#" data-query="<%= stream.url %>">
+                                <%= stream.title %>
+                            </a>
+                            <% } %>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="input-group">
+            <select class="custom-select" id="eps-selected" aria-label="Example select with button addon">
+                <% for (let eps of eps_list) { %>
+                    <% if (eps.url==0 && eps.endpoint==0) { %>
+                        <option value='0' selected>Choose Episode...</option>
+                        <% } else { %>
+                            <option value='<%= eps.endpoint %>' selected>
+                                <%= eps.title %>
+                            </option>
+                            <% } %>
+                                <% } %>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="btn-eps-selected">Go! </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <p class="flex-center">
+        <h3>Download Link</h3>
+        </p>
+    </div>
+    <hr>
+
+    <div class="accordion">
+        <% for (i=0; i < download_link.length; i++) { %>
+            <div class="card">
+                <div class="card-header" id="heading-<%= i %>">
+                    <h4 class="mb-0 text-center">
+                        <%= download_link[i].name %>
+                    </h4>
+                </div>
+
+                <div class="collapse show">
+                    <div class="card-body">
+                        <% for (let link of download_link[i].data) { %>
+                            <a href="<%= link.url %>" class="btn btn-primary btn-block" target="_blank">
+                                <%= link.title %>
+                            </a>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
+
+    <%- include('../../layout/footer') %>

@@ -1,0 +1,26 @@
+<%- include('../../layout/header') %>
+
+    <div class="row" id="manga-list">
+        <div class="col-md-12">
+            <hr>
+            <h2 class="text-center"> Hasil Pencarian: </h3>
+                <hr>
+        </div>
+        <% data.forEach(a=> { %>
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="<%= a.thumb %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%= a.name %>
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="otakudesu" data-endpoint="<%=a.endpoint %>"
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <%- include('../../layout/footer') %>

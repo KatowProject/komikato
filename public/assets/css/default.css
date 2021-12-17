@@ -1,0 +1,43 @@
+/* Light mode */
+@media (prefers-color-scheme: light) {
+    @import url("light.css");
+}
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    @import url("dark.css");
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#btn-back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+}
+
+.page-item.active > .page-link {
+    border-color: grey;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 20px;
+}
+  
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}

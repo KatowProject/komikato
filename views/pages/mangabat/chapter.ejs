@@ -1,0 +1,63 @@
+<%- include('../../layout/header') %>
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <p>
+        <h2 class="text-justify">
+            <%= chapter_title %>
+        </h2>
+        </p>
+    </div>
+    <hr>
+    <script>
+        document.title = "<%= chapter_title %>";
+    </script>
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (navigation.prev !=undefined) { %>
+                        <a href='/mangabat/chapter/<%=navigation.prev%>' class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (navigation.next !=undefined) { %>
+                                    <a href='/mangabat/chapter/<%=navigation.next%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <% chapter_images.forEach(a=> { %>
+            <img src='<%= a.url %>' class='img-fluid' alt='<%= a.name %>'>
+            <% }) %>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (navigation.prev !=undefined) { %>
+                        <a href='/mangabat/chapter/<%=navigation.prev%>' class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (navigation.next !=null) { %>
+                                    <a href='/mangabat/chapter/<%=navigation.next%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../layout/footer') %>
