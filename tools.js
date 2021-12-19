@@ -27,9 +27,13 @@ module.exports = {
                     if (err.response.status === 503) {
                         const driver = new Builder().forBrowser('chrome').build();
 
-                        await driver.get(url);
+                        await driver.get(err.response.config.url);
+                        // titleis but just include
+
+                        await driver.wait(until.elementLocated(By.css('header')), 1000);
                         //get page source code
                         const html = await driver.getPageSource();
+
                         //exiting
                         await driver.quit();
                         return resolve({ data: html });
