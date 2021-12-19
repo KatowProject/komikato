@@ -4,13 +4,19 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
     'Referer': 'https://komikindo.id/'
 }
-
+require('chromedriver');
+const { Builder, By, Key, until } = require('selenium-webdriver');
 
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
+        const driver = await new Builder().forBrowser('chrome').build();
         try {
-            const data = await axios.get('/', { headers });
-            const $ = cheerio.load(data.data);
+            //const data = await axios.get('/', { headers });
+            await driver.get('https://komikindo.id/');
+            await driver.wait(until.titleIs('KomikIndo - Baca Komik Manga Bahasa Indonesia'), 1000);
+            const html = await driver.getPageSource();
+            await driver.quit();
+            const $ = cheerio.load(html);
 
             const obj = {};
             /* Menu */
