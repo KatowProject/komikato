@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { axios } = require('../../../tools');
+const { get } = require('../../../tools');
 const general = require('../../../controllers/mangabat/general');
 
 router.get('/', async (req, res) => {
     try {
-        const data = await axios.get('https://m.mangabat.com/');
+        const data = await get('https://m.mangabat.com/');
         res.send({ suceess: true, statusCode: data.status, statusMessage: data.statusText });
     } catch (error) {
         res.send({ suceess: false, message: error.message });

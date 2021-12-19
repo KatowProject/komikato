@@ -7,8 +7,8 @@ const detail = (req, res) => new Promise(async (resolve, reject) => {
         const endpoint = req.params.endpoint;
         const url = `${mainUrl}/anime/${endpoint}`;
 
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
+        const response = await get(url);
+        const $ = cheerio.load(response.body);
         const main = $('#venkonten');
 
         const obj = {};
@@ -80,8 +80,8 @@ const batch = (req, res) => new Promise(async (resolve, reject) => {
         const endpoint = req.params.endpoint;
         const url = `${mainUrl}/batch/${endpoint}`;
 
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
+        const response = await get(url);
+        const $ = cheerio.load(response.body);
         const main = $('.download');
 
         const obj = {};
@@ -114,8 +114,8 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
 
         const mirror = Object.keys(query);
         const url = `${mainUrl}/${endpoint}?${mirror[0]}=${query[mirror[0]]}`;
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
+        const response = await get(url);
+        const $ = cheerio.load(response.body);
         const main = $('#venkonten');
 
         const obj = {};

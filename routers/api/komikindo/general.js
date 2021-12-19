@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const cheerio = require('cheerio');
-const { axios } = require('../../../tools');
+const { get } = require('../../../tools');
 const general = require('../../../controllers/komikindo/general');
 
 /* Checking Status */
 router.get('/', async (req, res) => {
     try {
-        const data = await axios.get('/');
+        const data = await get('/');
         res.send({ suceess: true, statusCode: data.status, statusMessage: data.statusText });
     } catch (error) {
         res.send({ suceess: false, message: error.message });

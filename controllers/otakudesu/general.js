@@ -1,11 +1,11 @@
-const { axios } = require('../../tools');
+const { get } = require('../../tools');
 const cheerio = require('cheerio');
 const baseURL = 'https://otakudesu.info';
 
 const home = (req, res) => new Promise(async (resolve, reject) => {
     try {
-        const response = await axios.get(`${baseURL}/`);
-        const $ = cheerio.load(response.data);
+        const response = await get(`${baseURL}/`);
+        const $ = cheerio.load(response.body);
         const main = $('.rseries');
 
         const obj = {};
@@ -49,8 +49,8 @@ const search = (req, res) => new Promise(async (resolve, reject) => {
         const query = endpoint.replace(/\s/g, '+');
         console.log(query);
 
-        const response = await axios.get(`${baseURL}/?s=${query}&post_type=anime`);
-        const $ = cheerio.load(response.data);
+        const response = await get(`${baseURL}/?s=${query}&post_type=anime`);
+        const $ = cheerio.load(response.body);
         const main = $('#venkonten');
 
         const data = [];

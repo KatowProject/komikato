@@ -1,15 +1,11 @@
 const cheerio = require('cheerio');
-const { axios } = require('../../tools');
-const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
-    'Referer': 'https://komikindo.id/'
-}
+const { get } = require('../../tools');
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axios.get(`${req.params.query}`, { headers });
-            const $ = cheerio.load(response.data);
+            const response = await get(`https://komikindo.id/${req.params.query}`);
+            const $ = cheerio.load(response.body);
             const main = $('#chimg');
 
             const data = {};
@@ -19,8 +15,8 @@ module.exports = (req, res) => {
 
             data.chapter_images = [];
             const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
-            const getImages = await axios.get(chapter_image_url);
-            const $imgs = cheerio.load(getImages.data.content.rendered);
+            const getImages = await get(chapter_image_url);
+            const $imgs = cheerio.load(getImages.body.content.rendered);
             $imgs('img').each((i, el) => {
                 const src = $imgs(el).attr('src');
                 const url = src.replace('https://', "https://cdn.statically.io/img/")

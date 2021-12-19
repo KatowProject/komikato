@@ -1,60 +1,21 @@
-const axios = require('axios').default;
-const tough = require('tough-cookie');
-const baseURL = 'https://komikindo.id/';
-const cookieJar = new tough.CookieJar();
 const PDFDocument = require('pdfkit');
 const getStream = require('get-stream');
-const fs = require('fs');
-const https = require('https');
 const cheerio = require('cheerio');
-require('chromedriver')
-const { Builder, By, Key, until } = require('selenium-webdriver');
+const got = require('got-scraping').gotScraping;
 
-axios.defaults.baseURL = baseURL;
-axios.defaults.jar = cookieJar;
-
-
-// Create a document
 module.exports = {
-    axios: {
-        get: (url, option = {}) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const res = await axios.get(url, option);
-                    if (res.status === 200) return resolve(res);
-                } catch (err) {
-                    // if status code 503
-                    if (err.response.status === 503) {
-                        const driver = new Builder().forBrowser('chrome').build();
+    get: (url, option = {}) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await got.get(url, option);
 
-                        await driver.get(err.response.config.url);
-                        // titleis but just include
-
-                        await driver.wait(until.elementLocated(By.css('header')), 1000);
-                        //get page source code
-                        const html = await driver.getPageSource();
-
-                        //exiting
-                        await driver.quit();
-                        return resolve({ data: html });
-                    }
-
-                    return reject({ status: false, error: err.message });
-                }
-            });
-        },
-        post: (url, data, options = {}) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const res = await axios.post(url, data, options);
-                    if (res.status === 200) return resolve(res);
-                    else reject(res);
-                } catch (err) {
-                    return reject({ status: false, error: err.message });
-                }
-            });
-        }
+                return resolve(response);
+            } catch (e) {
+                reject(e);
+            }
+        });
     },
+
     generatePDF: async (images) => {
         try {
             const doc = new PDFDocument({ autoFirstPage: false });
@@ -79,8 +40,8 @@ module.exports = {
     },
     getVideoSrc: async (url) => {
         try {
-            const response = await axios.get(url);
-            const $ = cheerio.load(response.data);
+            const response = await get(url);
+            const $ = cheerio.load(response.body);
             let source1 = $.html().search('"file":');
             let source2 = $.html().search("'file':");
             let source3 = $('source').attr('src');

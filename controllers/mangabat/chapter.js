@@ -1,16 +1,16 @@
 const cheerio = require('cheerio');
-const { axios } = require('../../tools');
+const { get } = require('../../tools');
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const manga = req.params.endpoint;
-            let response = await axios.get(`https://read.mangabat.com/${manga}`);
-            let $ = cheerio.load(response.data);
+            let response = await get(`https://read.mangabat.com/${manga}`);
+            let $ = cheerio.load(response.body);
 
             if ($('.panel-not-found p:nth-of-type(1)').text() === '404 - PAGE NOT FOUND') {
-                response = await axios.get(`https://m.mangabat.com/${manga}`);
-                $ = cheerio.load(response.data);
+                response = await get(`https://m.mangabat.com/${manga}`);
+                $ = cheerio.load(response.body);
             }
 
             const data = {};
