@@ -7,6 +7,8 @@ const getStream = require('get-stream');
 const fs = require('fs');
 const https = require('https');
 const cheerio = require('cheerio');
+require('chromedriver')
+const { Builder, By, Key, until } = require('selenium-webdriver');
 
 axios.defaults.baseURL = baseURL;
 axios.defaults.jar = cookieJar;
@@ -20,7 +22,16 @@ module.exports = {
                 try {
                     const res = await axios.get(url, option);
                     if (res.status === 200) return resolve(res);
-                    else reject(res);
+                    if (res.status === 503) {
+                        const driver = new Builder().forBrowser('chrome').build();
+
+                        await driver.get(url);
+                        //get page source code
+                        const html = await driver.getPageSource();
+                        //exiting
+                        await driver.quit();
+                        return resolve({ data: html });
+                    }
                 } catch (err) {
                     return reject({ status: false, error: err.message });
                 }
