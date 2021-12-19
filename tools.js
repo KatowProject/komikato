@@ -22,7 +22,9 @@ module.exports = {
                 try {
                     const res = await axios.get(url, option);
                     if (res.status === 200) return resolve(res);
-                    if (res.status === 503) {
+                } catch (err) {
+                    // if status code 503
+                    if (err.response.status === 503) {
                         const driver = new Builder().forBrowser('chrome').build();
 
                         await driver.get(url);
@@ -32,7 +34,7 @@ module.exports = {
                         await driver.quit();
                         return resolve({ data: html });
                     }
-                } catch (err) {
+
                     return reject({ status: false, error: err.message });
                 }
             });
