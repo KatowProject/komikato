@@ -1,10 +1,15 @@
 const cheerio = require('cheerio');
 const { axios } = require('../../tools');
+const headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+    'Referer': 'https://komikindo.id/'
+}
+
 
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await axios.get('/');
+            const data = await axios.get('/', { headers });
             const $ = cheerio.load(data.data);
 
             const obj = {};
@@ -139,7 +144,7 @@ const home = (req, res) => {
 const komiks = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axios.get(`/daftar-komik/page/${req.params.number}`);
+            const response = await axios.get(`/daftar-komik/page/${req.params.number}`, { headers });
             const $ = cheerio.load(response.data);
 
             const manga = [];
@@ -217,15 +222,15 @@ const komik = (req, res) => {
             let response = null;
             switch (type) {
                 case 'manga':
-                    response = await axios.get(`/manga/page/${num}`);
+                    response = await axios.get(`/manga/page/${num}`, { headers });
                     break;
 
                 case 'manhua':
-                    response = await axios.get(`/manhua/page/${num}`);
+                    response = await axios.get(`/manhua/page/${num}`, { headers });
                     break;
 
                 case 'manhwa':
-                    response = await axios.get(`/manhwa/page/${num}`);
+                    response = await axios.get(`/manhwa/page/${num}`, { headers });
                     break;
             }
             const $ = cheerio.load(response.data);
@@ -254,7 +259,7 @@ const komik = (req, res) => {
 const getDetail = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axios.get(`/manga/${req.params.endpoint}`);
+            const response = await axios.get(`/manga/${req.params.endpoint}`, { headers });
             const $ = cheerio.load(response.data);
 
             const main = $('.infoanime');
@@ -340,7 +345,7 @@ const search = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const pagination = req.params.pagination ? req.params.pagination : 1
-            const response = await axios.get(`page/${pagination}/?s=${req.params.query}`);
+            const response = await axios.get(`page/${pagination}/?s=${req.params.query}`, { headers });
             const $ = cheerio.load(response.data);
 
             const data = {};

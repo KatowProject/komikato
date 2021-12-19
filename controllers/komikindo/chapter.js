@@ -1,10 +1,14 @@
 const cheerio = require('cheerio');
 const { axios } = require('../../tools');
+const headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+    'Referer': 'https://komikindo.id/'
+}
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await axios.get(`${req.params.query}`);
+            const response = await axios.get(`${req.params.query}`, { headers });
             const $ = cheerio.load(response.data);
             const main = $('#chimg');
 
