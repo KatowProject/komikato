@@ -18,12 +18,13 @@ module.exports = {
                     const driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
 
                     await driver.get(url);
-                    //get title 
                     const title = await driver.getTitle();
-                    if (title.includes('Komikindo')) {
-                        await driver.wait(until.titleContains('Komikindo'), 5000);
+                    if (url.includes('wp-json')) {
+                        await driver.wait(until.titleContains('wp-json'), 5000);
+                    } else if (url.includes('komikindo.id')) {
+                        await driver.wait(until.titleContains('KomikIndo'), 5000);
                     } else {
-                        await driver.wait(until.titleContains(title), 5000);
+                        await driver.wait(until.elementLocated(By.css('title')), 5000);
                     }
 
                     //get page source
