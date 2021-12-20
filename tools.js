@@ -20,7 +20,7 @@ module.exports = {
                     await driver.get(url);
                     //get title 
                     const title = await driver.getTitle();
-                    await driver.wait(until.titleMatches('KomikIndo'), 2000);
+                    await driver.wait(until.titleContains('KomikIndo'), 2000);
 
                     //get page source
                     const html = await driver.getPageSource();
