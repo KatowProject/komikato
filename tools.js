@@ -13,7 +13,7 @@ module.exports = {
                 const response = await got.get(url, option);
                 //get status code
                 const statusCode = response.statusCode;
-                if (statusCode === '503') {
+                if (statusCode === 503) {
                     const driver = await new Builder().forBrowser('chrome').build();
                     await driver.get(url);
                     await driver.wait(until.elementLocated(By.css('body')), 2000);
@@ -22,7 +22,7 @@ module.exports = {
                     const html = await driver.getPageSource();
                     await driver.quit();
 
-                    return resolve({ data: html, statusCode: '200' });
+                    return resolve({ body: html, statusCode: '200' });
                 }
                 return resolve(response);
             } catch (e) {
