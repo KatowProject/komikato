@@ -20,7 +20,11 @@ module.exports = {
                     await driver.get(url);
                     const title = await driver.getTitle();
                     if (url.includes('wp-json')) {
-                        console.log('wp-json');
+                        // find element pre
+                        const pre = await driver.findElement(By.css('pre'));
+                        const html = await pre.getAttribute('innerHTML');
+
+                        resolve({ success: true, body: html });
                     } else if (url.includes('komikindo.id')) {
                         await driver.wait(until.titleContains('KomikIndo'), 5000);
                     } else {
