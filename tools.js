@@ -18,7 +18,9 @@ module.exports = {
                     const driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
 
                     await driver.get(url);
-                    await driver.wait(until.elementLocated(By.css('body')), 2000);
+                    //get title 
+                    const title = await driver.getTitle();
+                    await driver.wait(until.titleMatches('KomikIndo'), 2000);
 
                     //get page source
                     const html = await driver.getPageSource();
