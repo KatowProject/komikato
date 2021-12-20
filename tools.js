@@ -20,7 +20,7 @@ module.exports = {
                     await driver.get(url);
                     const title = await driver.getTitle();
                     if (url.includes('wp-json')) {
-                        await driver.wait(until.titleContains('wp-json'), 5000);
+                        console.log('wp-json');
                     } else if (url.includes('komikindo.id')) {
                         await driver.wait(until.titleContains('KomikIndo'), 5000);
                     } else {
