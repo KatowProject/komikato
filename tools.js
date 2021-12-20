@@ -3,6 +3,7 @@ const getStream = require('get-stream');
 const cheerio = require('cheerio');
 const got = require('got-scraping').gotScraping;
 require('chromedriver');
+const chrome = require('selenium-webdriver/chrome');
 const { Builder, until, By, Key, Capabilities } = require('selenium-webdriver');
 
 
@@ -14,10 +15,7 @@ module.exports = {
                 //get status code
                 const statusCode = response.statusCode;
                 if (statusCode === 503) {
-                    //headless
-                    const chromeCapabilites = Capabilities.chrome();
-                    chromeCapabilites.set('chromeOptions', { args: ['--headless'] });
-                    const driver = await new Builder().forBrowser('chrome').withCapabilities(chromeCapabilites).build();
+                    const driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
 
                     await driver.get(url);
                     await driver.wait(until.elementLocated(By.css('body')), 2000);
