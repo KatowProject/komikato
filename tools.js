@@ -15,7 +15,7 @@ module.exports = {
                 //get status code
                 const statusCode = response.statusCode;
                 if (statusCode === 503) {
-                    const driver = new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
+                    const driver = new Builder().forBrowser('chrome').build();
 
                     await driver.get(url);
                     const title = await driver.getTitle();
