@@ -16,7 +16,8 @@ module.exports = (req, res) => {
             data.chapter_images = [];
             const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
             const getImages = await get(chapter_image_url);
-            const $imgs = cheerio.load(getImages.body.content.rendered);
+            const images = JSON.parse(getImages.body);
+            const $imgs = cheerio.load(images.content.rendered);
             $imgs('img').each((i, el) => {
                 const src = $imgs(el).attr('src');
                 const url = src.replace('https://', "https://cdn.statically.io/img/")
@@ -36,7 +37,7 @@ module.exports = (req, res) => {
 
             resolve({ success: true, data });
         } catch (error) {
-            reject({ success: false, error: error.message });
+            reject(error);
         }
     });
 }
