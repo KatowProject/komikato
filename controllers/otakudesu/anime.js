@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const { axios, getVideoSrc } = require('../../tools');
+const { get, getVideoSrc } = require('../../tools');
 const mainUrl = 'https://otakudesu.info';
 
 const detail = (req, res) => new Promise(async (resolve, reject) => {

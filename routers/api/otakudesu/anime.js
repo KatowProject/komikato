@@ -7,7 +7,7 @@ router.get('/detail/:endpoint', async (req, res) => {
 
         res.send(getDetail);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 
@@ -17,7 +17,7 @@ router.get('/batch/:endpoint', async (req, res) => {
 
         res.send(getBatch);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 
@@ -27,7 +27,7 @@ router.get('/eps/:endpoint', async (req, res) => {
 
         res.send(getEpisode);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 

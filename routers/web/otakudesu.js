@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
 
         res.render('pages/otakudesu/index', getData.data);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 
@@ -18,7 +18,7 @@ router.get('/search/:query', async (req, res) => {
 
         res.render('pages/otakudesu/search', getAnime);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 
@@ -28,7 +28,7 @@ router.get('/eps/:endpoint', async (req, res) => {
 
         res.render('pages/otakudesu/episode', getEpisode.data);
     } catch (err) {
-        res.status(500).send({ success: false, message: err.message });
+        res.status(500).send({ success: false, message: err });
     }
 });
 
