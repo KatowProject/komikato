@@ -1,22 +1,21 @@
 const PDFDocument = require('pdfkit');
 const getStream = require('get-stream');
 const cheerio = require('cheerio');
-const got = require('got-scraping').gotScraping;
+const got = require('got').gotScraping;
 
 module.exports = {
     get: (url, option = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const response = await got.get(url, option);
-                //get status code
-                const statusCode = response.statusCode;
-                if (statusCode === 503) {
+
+                return resolve(response);
+            } catch (e) {
+                if (e.statusCode === 503) {
                     const response = await got.get('https://mirror.katowproject.ink/?url=' + url, option);
 
                     return resolve(response);
                 }
-                return resolve(response);
-            } catch (e) {
                 reject(e);
             }
         });
