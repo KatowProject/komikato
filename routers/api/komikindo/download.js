@@ -18,7 +18,7 @@ router.get('/:query', async function (req, res, next) {
             .end(pdfStream);
     } catch (error) {
         console.log(error);
-        res.send({ success: false, error: error.message ? error.message : error });
+        res.send(err);
     }
 });
 

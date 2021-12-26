@@ -15,39 +15,63 @@ router.get('/', async (req, res) => {
 
 /*Home*/
 router.get('/home', async (req, res) => {
-    const getManga = await general.home(req, res);
-    res.send(getManga);
+    try {
+        const getManga = await general.home(req, res);
+        res.send(getManga);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get('/daftar-komik/page/:number', async (req, res) => {
-    const getKomik = await general.komiks(req, res);
+    try {
+        const getKomik = await general.komiks(req, res);
 
-    res.send(getKomik);
+        res.send(getKomik);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get('/komik-terbaru/page/:number', async (req, res) => {
-    const getKomik = await general.newestManga(req, res);
+    try {
+        const getKomik = await general.newestManga(req, res);
 
-    res.send(getKomik);
+        res.send(getKomik);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get('/komik/:type/page/:number', async (req, res) => {
-    const getKomik = await general.komik(req, res);
+    try {
+        const getKomik = await general.komik(req, res);
 
-    res.send(getKomik);
+        res.send(getKomik);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 
 /* Komik Detail */
 router.get('/komik/:endpoint', async (req, res) => {
-    const getDetail = await general.getDetail(req, res);
+    try {
+        const getDetail = await general.getDetail(req, res);
 
-    res.send(getDetail);
+        res.send(getDetail);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get('/cari/:query/page/:pagination', async (req, res) => {
-    const getBySearch = await general.search(req, res);
+    try {
+        const getBySearch = await general.search(req, res);
 
-    res.send(getBySearch);
+        res.send(getBySearch);
+    } catch (error) {
+        res.send(error);
+    }
 })
 module.exports = router;
