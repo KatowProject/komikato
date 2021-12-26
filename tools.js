@@ -7,15 +7,16 @@ module.exports = {
     get: (url, option = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await got(url, option);
+                const response = await got(url, option).catch(async (err) => {
+                    if (err.message.includes('503')) {
+                        const res = await got('https://mirror.katowproject.ink/?url=' + url, option);
+
+                        return res;
+                    }
+                });
 
                 return resolve(response);
             } catch (e) {
-                if (e.statusCode === 503) {
-                    const response = await got('https://mirror.katowproject.ink/?url=' + url, option);
-
-                    return resolve(response);
-                }
                 reject(e);
             }
         });
