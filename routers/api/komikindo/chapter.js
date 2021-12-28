@@ -7,7 +7,7 @@ router.get('/:query', async (req, res) => {
 
         res.send(getChapter);
     } catch (err) {
-        res.send({ success: false, message: err });
+        res.send(err);
     }
 
 });

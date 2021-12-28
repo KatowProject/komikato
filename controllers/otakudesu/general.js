@@ -47,8 +47,6 @@ const search = (req, res) => new Promise(async (resolve, reject) => {
     try {
         const endpoint = req.params.query;
         const query = endpoint.replace(/\s/g, '+');
-        console.log(query);
-
         const response = await get(`${baseURL}/?s=${query}&post_type=anime`);
         const $ = cheerio.load(response.body);
         const main = $('#venkonten');

@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 app.use('/komikindo', require('./routers/web/komikindo'));
 app.use('/mangabat', require('./routers/web/mangabat'));
 app.use('/otakudesu', require('./routers/web/otakudesu'));
+app.use('/komiku', require('./routers/web/komiku'));
 
 /* API Path */
 app.get('/api', (req, res) => {
@@ -41,6 +42,9 @@ app.use('/api/mangabat/chapter', require('./routers/api/mangabat/chapter'));
 app.use('/api/otakudesu', require('./routers/api/otakudesu/general'));
 app.use('/api/otakudesu/anime', require('./routers/api/otakudesu/anime'));
 
+app.use('/api/komiku', require('./routers/api/komiku/general'));
+app.use('/api/komiku/ch', require('./routers/api/komiku/chapter'));
+
 app.use('*', async (req, res) => {
     res.status(404).send({ status: false, message: 'api not found' });
 });
@@ -49,3 +53,4 @@ app.use('*', async (req, res) => {
 app.listen(PORT, async () => {
     console.log('Listening on PORT ' + PORT);
 });
+

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const cheerio = require('cheerio');
 const { get } = require('../../../tools');
 const general = require('../../../controllers/komikindo/general');
 
