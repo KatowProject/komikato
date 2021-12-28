@@ -1,0 +1,64 @@
+<%- include('../../layout/header') %>
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <p>
+        <h2 class="text-justify">
+            <%= title %>
+        </h2>
+        </p>
+    </div>
+    <hr>
+
+    <script>
+        document.title = "<%= title %>";
+    </script>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (navigation.prev.url !=null) { %>
+                        <a href='/komiku<%=navigation.prev.endpoint%>' class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (navigation.next.url !=null) { %>
+                                    <a href='/komiku<%=navigation.next.endpoint%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row mt-4 justify-content-center">
+        <% chapter_image.forEach(a=> { %>
+            <img src='<%= a.chapter_image_link %>' class='img-fluid' alt='<%=a.image_number%>'>
+            <% }) %>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="row flex justify-content-center">
+                <div class="btn-group btn-group-toggle btn-group-lg btn-block">
+                    <% if (navigation.prev.url !=null) { %>
+                        <a href='/komiku<%=navigation.prev.endpoint%>' class='btn btn-outline-secondary'>Previous</a>
+                        <% } else { %>
+                            <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
+                            <%}%>
+
+                                <% if (navigation.next.url !=null) { %>
+                                    <a href='/komiku<%=navigation.next.endpoint%>'
+                                        class='btn btn-outline-secondary'>Next</a>
+                                    <% } else { %>
+                                        <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
+                                        <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../layout/footer') %>
