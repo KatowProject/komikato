@@ -15,7 +15,7 @@ module.exports = (req, res) => {
             obj.chapter_endpoint = endpoint + "/";
             obj.chapter_name = endpoint.split('-').join(' ').trim()
 
-            obj.title = $('#Judul > h1').text().trim()
+            obj.title = $('#Judul:nth-of-type(1) > h1').text().trim()
             /**
              * @Komiku
              */

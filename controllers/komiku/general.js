@@ -254,5 +254,55 @@ const detail = (req, res) => {
     });
 }
 
+const search = (req, res) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const query = req.params.query;
+            const response = await get(`https://data.komiku.id/cari/?post_type=manga&s=${query}`);
+            const $ = cheerio.load(response.body);
+            const main = $('.daftar');
 
-module.exports = { home, detail };
+            const ary = [];
+            $(main).find('.bge').each((i, el) => {
+                const obj = {};
+
+                const _1 = $(el).find('.bgei');
+                obj.thumb = _1.find('img').attr('data-src').split('?')[0];
+
+                const _2 = $(el).find('.kan');
+                obj.title = _2.find('a > h3').text().trim();
+                obj.link = {
+                    url: _2.find('a').attr('href'),
+                    endpoint: _2.find('a').attr('href').replace(baseURL, "")
+                };
+
+                const ch = _2.find('.new1');
+                obj.chapter = {
+                    oldest: {
+                        title: ch.eq(0).find('span').eq(1).text(),
+                        link: {
+                            url: ch.eq(0).find('a').attr('href'),
+                            endpoint: ch.eq(0).find('a').attr('href').replace(baseURL, "")
+                        }
+                    },
+                    newest: {
+                        title: ch.eq(0).find('span').eq(1).text(),
+                        link: {
+                            url: ch.eq(1).find('a').attr('href'),
+                            endpoint: ch.eq(1).find('a').attr('href').replace(baseURL, "")
+                        }
+                    }
+                }
+
+                ary.push(obj);
+            });
+
+            resolve({ success: true, data: ary });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
+
+
+module.exports = { home, detail, search };

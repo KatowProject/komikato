@@ -15,6 +15,11 @@ function getSearch(source) {
         const endpoint = `/${source}/search/${value}`;
 
         window.location.href = endpoint;
+    } else if (source === 'komiku') {
+        const value = $('#search-input').val();
+        const endpoint = `/komiku/search/${value}`;
+
+        window.location.href = endpoint;
     }
 }
 
@@ -78,8 +83,6 @@ $('#mangas').on('click', '.see-detail', function () {
                     </div>
                 </div>
                 `);
-
-
             });
             break;
 
@@ -178,6 +181,57 @@ $('#mangas').on('click', '.see-detail', function () {
                 `);
             });
             break;
+
+        case 'komiku':
+            const komikuEndpoint = $(this).data('endpoint');
+            $.getJSON(domain + '/api/komiku/detail' + komikuEndpoint, async function (result) {
+                const data = result.data;
+
+                const map = data.chapter.map((a) => {
+                    return `<tr>    
+                    <td>${a.chapter_title}</td>
+                    <td><a href="/komiku/ch/${a.chapter_endpoint}" target="_blank"><button type="button" class="btn btn-dark btn-sm btn-block">Baca Komik</button></a></td>
+                </tr>
+                `
+                });
+                $('.modal-title').text(`${data.title}`);
+                $('.modal-body').html(`
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="${data.thumb}" class="img-fluid" alt="...">
+                        </div>
+
+                        <div class="col-md-8">
+                            <ul class="list-group">
+                                <li class="list-group-item"><b>Tipe:</b> ${data.type}</li>
+                                <li class="list-group-item"><b>Genre:</b> ${data.genre_list.map(a => a.genre_name).join(', ')}</li>
+                                <li class="list-group-item"><b>Status:</b> ${data.status}</li>
+                                <li class="list-group-item"><b>Author:</b> ${data.author}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>${data.synopsis}</p>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-12" style="overflow-y: scroll; height:400px;">
+                            <table class="table table-striped table-bordered table-paginate" cellspacing="0">
+                                <tbody>
+                                    ${map.join('\n')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                `);
+            });
     }
 });
 

@@ -12,6 +12,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/search/:query', async (req, res) => {
+    try {
+        const data = await general.search(req, res);
+
+        res.render('pages/komiku/search', data);
+    } catch (err) {
+        res.send(err);
+    }
+});
+
 router.get('/ch/:endpoint', async (req, res) => {
     try {
         const data = await chapter(req, res);

@@ -29,9 +29,9 @@
                             <%= a.title %>
                         </h5>
                         <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
-                            data-source="otakudesu" data-endpoint=<%=a.manga_link.endpoint %>
+                            data-source="komiku" data-endpoint=<%=a.manga_link.endpoint %>
                             data-target="#exampleModal">Detail</a>
-                        <a class="btn btn-dark btn-sm btn-block" href="/komiku<%=a.link.endpoint%>">
+                        <a class="btn btn-dark btn-sm btn-block" href="/komiku<%=a.link.endpoint.replace('/manga')%>">
                             <%=a.chapter%>
                         </a>
                     </div>
@@ -54,7 +54,7 @@
                             <%= a.title %>
                         </h5>
                         <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
-                            data-source="mangabat" data-endpoint=<%=a.manga_link.endpoint%>
+                            data-source="komiku" data-endpoint=<%=a.manga_link.endpoint.replace('/manga', '' )%>
                             data-target="#exampleModal">Detail</a>
                         <a class="btn btn-dark btn-sm btn-block" href="/komiku<%=a.link.endpoint%>">
                             <%=a.chapter%>

@@ -30,4 +30,14 @@ router.get('/detail/:endpoint', async (req, res) => {
         res.send(error);
     }
 });
+
+router.get('/search/:query', async (req, res) => {
+    try {
+        const getManga = await general.search(req, res);
+
+        res.send(getManga);
+    } catch (error) {
+        res.send(error);
+    }
+});
 module.exports = router;
