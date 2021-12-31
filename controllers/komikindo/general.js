@@ -228,6 +228,10 @@ const komik = (req, res) => {
                 case 'manhwa':
                     response = await get(`${baseURL}manhwa/page/${num}`);
                     break;
+
+                case 'smut':
+                    response = await get(`${baseURL}konten/smut/page/${num}`);
+                    break;
             }
             const $ = cheerio.load(response.body);
 
@@ -245,7 +249,18 @@ const komik = (req, res) => {
                 });
             });
 
-            resolve({ success: true, data: komik });
+            const pagination = [];
+            $('.pagination > .page-numbers').each((i, e) => {
+                let endpoint = `${$(e).attr('href')}`.replace(baseURL + 'konten/', '');
+                if (endpoint && !endpoint.includes('page')) endpoint = endpoint + 'page/1';
+                pagination.push({
+                    name: $(e).text(),
+                    url: $(e).attr('href') ? $(e).attr('href') : null,
+                    endpoint: endpoint !== "undefined" ? endpoint : null,
+                });
+            });
+
+            resolve({ success: true, data: { komik, pagination } });
         } catch (error) {
             reject({ suceess: false, message: error.message });
         }

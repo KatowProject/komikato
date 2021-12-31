@@ -1,0 +1,64 @@
+<%- include('../../layout/header') %>
+    <script>
+        document.title = 'Komikindo • Smut / NSFW';
+    </script>
+    <div class="row mt-4 justify-content-center">
+        <div class="col">
+            <h1 class="text-center">Home</h1>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Title...." id="search-input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="button" onClick="getSearch('komikindo')">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <h3 class="text-center"> Newest Manga </h3>
+    <hr>
+    <div id="manga-list" class="row">
+        <% komik.forEach(a=> { %>
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="<%= a.thumb %>" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%= a.title %>
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="komikindo" data-endpoint=<%=a.link.endpoint %>
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+
+                <div class="col-md-12">
+                    <hr>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <% pagination.forEach(a=> { %>
+                                <% if (a.url==null) { %>
+                                    <li class='page-item active'><a class='page-link bg-dark text-white'>
+                                            <%= a.name %>
+                                        </a></li>
+                                    <% } else if (a.endpoint.includes('page')) {%>
+                                        <li class='page-item'><a class='page-link text-dark'
+                                                href="/komikindo/komik/<%=a.endpoint %>">
+                                                <%= a.name %>
+                                            </a></li>
+                                        <% } else { %>
+                                            <li class='page-item'><a class='page-link text-dark'
+                                                    href='/komikindo/komik/<%= a.endpoint %>page/1'>
+                                                    <%= a.name %>
+                                                </a></li>
+                                            <% } %>
+                                                <% }) %>
+                        </ul>
+                    </nav>
+                    <hr>
+                </div>
+    </div>
+    <hr>
+    <%- include('../../layout/footer') %>

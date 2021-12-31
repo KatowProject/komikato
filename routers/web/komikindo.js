@@ -32,4 +32,14 @@ router.get('/cari/:query/page/:pagination/', async (req, res) => {
     }
 });
 
+router.get('/komik/:type/page/:number', async (req, res) => {
+    try {
+        const getKomik = await general.komik(req, res);
+
+        res.render('pages/komikindo/smut', getKomik.data);
+    } catch (err) {
+        res.send({ success: false, message: err.message });
+    }
+});
+
 module.exports = router;
