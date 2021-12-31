@@ -15,8 +15,6 @@ module.exports = (req, res) => {
 
             const data = {};
             data.chapter_title = $('.panel-chapter-info-top > h1').text();
-            data.chapter_url = response.config.url;
-            data.chapter_endpoint = data.chapter_url.replace('https://read.mangabat.com/', '');
             data.chapter_images = [];
             $('.container-chapter-reader > img').each((i, e) => {
                 const url = new URL($(e).attr('src'));
