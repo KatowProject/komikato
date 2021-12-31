@@ -230,7 +230,7 @@ const komik = (req, res) => {
                     break;
 
                 case 'smut':
-                    if (num === '1') response = await get(`${baseURL}smut/`);
+                    if (num === '1') response = await get(`${baseURL}konten/smut/`);
                     else response = await get(`${baseURL}konten/smut/page/${num}`);
                     break;
             }
