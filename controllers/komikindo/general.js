@@ -270,7 +270,7 @@ const komik = (req, res) => {
 const getDetail = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await get(`${baseURL}manga/${req.params.endpoint}`);
+            const response = await get(`${baseURL}komik/${req.params.endpoint}`);
             const $ = cheerio.load(response.body);
 
             const main = $('.infoanime');
