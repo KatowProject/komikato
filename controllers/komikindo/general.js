@@ -230,7 +230,8 @@ const komik = (req, res) => {
                     break;
 
                 case 'smut':
-                    response = await get(`${baseURL}konten/smut/page/${num}`);
+                    if (num === '1') response = await get(`${baseURL}smut/`);
+                    else response = await get(`${baseURL}konten/smut/page/${num}`);
                     break;
             }
             const $ = cheerio.load(response.body);
