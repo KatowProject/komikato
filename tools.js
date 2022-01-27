@@ -7,15 +7,7 @@ module.exports = {
     get: (url, option = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await got(url, option).catch(async (err) => {
-                    //url to base64
-                    const base64 = Buffer.from(url, 'binary').toString('base64');
-                    if (err.message.includes('503')) {
-                        const res = await got('https://mirror.katowproject.ink/?url=' + base64, option);
-
-                        return res;
-                    }
-                });
+                const response = await got(url, option);
 
                 return resolve(response);
             } catch (e) {

@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
-const baseURL = 'https://komiku.id';
+const baseURL = 'https://komiku-id.translate.goog';
 
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
@@ -258,7 +258,7 @@ const search = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const query = req.params.query;
-            const response = await get(`https://data.komiku.id/cari/?post_type=manga&s=${query}`);
+            const response = await get(`https://data-komiku-id.translate.goog/cari/?post_type=manga&s=${query}`);
             const $ = cheerio.load(response.body);
             const main = $('.daftar');
 

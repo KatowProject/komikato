@@ -18,14 +18,13 @@
             <div class="row flex justify-content-center">
                 <div class="btn-group btn-group-toggle btn-group-lg btn-block">
                     <% if (chapter.previous !=null) { %>
-                        <a href='/komikindo/chapter/<%=chapter.previous%>'
-                            class='btn btn-outline-secondary'>Previous</a>
+                        <a href='/komikindo/chapter<%=chapter.previous%>' class='btn btn-outline-secondary'>Previous</a>
                         <% } else { %>
                             <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
                             <%}%>
 
                                 <% if (chapter.next !=null) { %>
-                                    <a href='/komikindo/chapter/<%=chapter.next%>'
+                                    <a href='/komikindo/chapter<%=chapter.next%>'
                                         class='btn btn-outline-secondary'>Next</a>
                                     <% } else { %>
                                         <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
@@ -47,14 +46,13 @@
             <div class="row flex justify-content-center">
                 <div class="btn-group btn-group-toggle btn-group-lg btn-block">
                     <% if (chapter.previous !=null) { %>
-                        <a href='/komikindo/chapter/<%=chapter.previous%>'
-                            class='btn btn-outline-secondary'>Previous</a>
+                        <a href='/komikindo/chapter<%=chapter.previous%>' class='btn btn-outline-secondary'>Previous</a>
                         <% } else { %>
                             <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
                             <%}%>
 
                                 <% if (chapter.next !=null) { %>
-                                    <a href='/komikindo/chapter/<%chapter.next%>'
+                                    <a href='/komikindo/chapter<%=chapter.next%>'
                                         class='btn btn-outline-secondary'>Next</a>
                                     <% } else { %>
                                         <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
@@ -63,4 +61,5 @@
             </div>
         </div>
     </div>
+
     <%- include('../../layout/footer') %>

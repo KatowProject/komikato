@@ -1,12 +1,13 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
-const baseURL = 'https://komiku.id';
+const baseURL = 'https://komiku-id.translate.goog';
+const query = "?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp";
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const endpoint = req.params.endpoint;
-            const response = await get(`${baseURL}/ch/${endpoint}`);
+            const response = await get(`${baseURL}/ch/${endpoint}${query}`);
             const $ = cheerio.load(response.body);
 
             const content = $("#article");
@@ -51,6 +52,7 @@ module.exports = (req, res) => {
 
             resolve({ success: true, data: obj });
         } catch (error) {
+            console.log(error);
             reject({ success: false, message: error.message ? error.message : error });
         }
     });
