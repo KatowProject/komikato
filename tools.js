@@ -11,6 +11,13 @@ module.exports = {
 
                 return resolve(response);
             } catch (e) {
+                if (e.response.status === 403) {
+                    //str to base64
+                    const uri = btoa(url);
+                    const response = await axios.get(`https://bypass.kato-rest.us/?q=${uri}`, option);
+
+                    return resolve(response);
+                }
                 reject(e);
             }
         });
