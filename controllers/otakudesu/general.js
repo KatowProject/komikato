@@ -5,7 +5,7 @@ const baseURL = 'https://otakudesu.pro';
 const home = (req, res) => new Promise(async (resolve, reject) => {
     try {
         const response = await get(`${baseURL}/`);
-        const $ = cheerio.load(response.body);
+        const $ = cheerio.load(response.data);
         const main = $('.rseries');
 
         const obj = {};
@@ -48,7 +48,7 @@ const search = (req, res) => new Promise(async (resolve, reject) => {
         const endpoint = req.params.query;
         const query = endpoint.replace(/\s/g, '+');
         const response = await get(`${baseURL}/?s=${query}&post_type=anime`);
-        const $ = cheerio.load(response.body);
+        const $ = cheerio.load(response.data);
         const main = $('#venkonten');
 
         const data = [];

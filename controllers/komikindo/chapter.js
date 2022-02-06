@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get(`${mainUrl}/${req.params.query}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
             const main = $('#chimg');
 
             const data = {};

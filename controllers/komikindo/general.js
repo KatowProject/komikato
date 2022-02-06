@@ -143,7 +143,7 @@ const komiks = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get(`${baseURL}daftar-komik/page/${req.params.number}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const manga = [];
             const main = $('.postbody');
@@ -188,7 +188,7 @@ const newestManga = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get(`${baseURL}komik-terbaru/page/${req.params.number}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const manga = [];
             const main = $('.postbody');
@@ -236,7 +236,7 @@ const komik = (req, res) => {
                     else response = await get(`${baseURL}konten/smut/page/${num}${query}`);
                     break;
             }
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const komik = [];
             const main = $('.postbody');
@@ -274,7 +274,7 @@ const getDetail = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get(`${baseURL}komik/${req.params.endpoint}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const main = $('.infoanime');
             const info = $(main).find('.spe');
@@ -360,7 +360,7 @@ const search = (req, res) => {
         try {
             const pagination = req.params.pagination ? req.params.pagination : 1
             const response = await get(`${baseURL}page/${pagination}/?s=${req.params.query}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const data = {};
 

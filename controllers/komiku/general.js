@@ -6,7 +6,7 @@ const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get(`${baseURL}/`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const main = $('.home');
             const obj = {};
@@ -193,7 +193,7 @@ const detail = (req, res) => {
         try {
             const endpoint = req.params.endpoint;
             const response = await get(baseURL + '/manga/' + endpoint);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const element = $(".perapih");
             let genre_list = [];
@@ -259,7 +259,7 @@ const search = (req, res) => {
         try {
             const query = req.params.query;
             const response = await get(`https://data-komiku-id.translate.goog/cari/?post_type=manga&s=${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
             const main = $('.daftar');
 
             const ary = [];

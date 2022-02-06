@@ -8,7 +8,7 @@ module.exports = (req, res) => {
         try {
             const endpoint = req.params.endpoint;
             const response = await get(`${baseURL}/ch/${endpoint}${query}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const content = $("#article");
             let chapter_image = [];

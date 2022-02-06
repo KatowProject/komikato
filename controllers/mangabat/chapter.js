@@ -6,11 +6,11 @@ module.exports = (req, res) => {
         try {
             const manga = req.params.endpoint;
             let response = await get(`https://read.mangabat.com/${manga}`);
-            let $ = cheerio.load(response.body);
+            let $ = cheerio.load(response.data);
 
             if ($('.panel-not-found p:nth-of-type(1)').text() === '404 - PAGE NOT FOUND') {
                 response = await get(`https://m.mangabat.com/${manga}`);
-                $ = cheerio.load(response.body);
+                $ = cheerio.load(response.data);
             }
 
             const data = {};

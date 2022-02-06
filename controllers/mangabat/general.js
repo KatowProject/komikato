@@ -5,7 +5,7 @@ const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const response = await get('https://m.mangabat.com/m');
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
             const main = $('.body-site');
 
 
@@ -42,7 +42,7 @@ const search = (req, res) => {
             const pagination = req.params.pagination ? req.params.pagination : 1;
 
             const response = await get(`https://m.mangabat.com/search/manga/${query}?page=${pagination}`);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
 
             const mangas = [];
             $('.panel-list-story > .list-story-item').each((i, e) => {
@@ -84,11 +84,11 @@ const getDetail = (req, res) => {
         try {
             const manga = req.params.endpoint;
             let response = await get(`https://read.mangabat.com/${manga}`);
-            let $ = cheerio.load(response.body);
+            let $ = cheerio.load(response.data);
 
             if ($('.panel-not-found p:nth-of-type(1)').text() === '404 - PAGE NOT FOUND') {
                 response = await get(`https://m.mangabat.com/${manga}`);
-                $ = cheerio.load(response.body);
+                $ = cheerio.load(response.data);
             }
 
             const data = {};

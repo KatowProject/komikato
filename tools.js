@@ -1,13 +1,13 @@
 const PDFDocument = require('pdfkit');
 const getStream = require('get-stream');
 const cheerio = require('cheerio');
-const got = require('got');
+const axios = require('axios');
 
 module.exports = {
     get: (url, option = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await got(url, option);
+                const response = await axios.get(url, option);
 
                 return resolve(response);
             } catch (e) {
@@ -41,7 +41,7 @@ module.exports = {
     getVideoSrc: async (url) => {
         try {
             const response = await got(url);
-            const $ = cheerio.load(response.body);
+            const $ = cheerio.load(response.data);
             let source1 = $.html().search('"file":');
             let source2 = $.html().search("'file':");
             let source3 = $('source').attr('src');
