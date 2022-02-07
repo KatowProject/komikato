@@ -245,7 +245,7 @@ function generateChapterList(array) {
             <tr>    
                 <td>${a.name ? a.name : a.title}</td>
                 <td><a href="/${firstPath}/chapter/${a.link.endpoint ? a.link.endpoint : a.endpoint}" target="_blank"><button type="button" class="btn btn-dark btn-sm btn-block">Baca Komik</button></a></td>
-                <td><a href="/api/${firstPath}/download/${a.link.endpoint ? a.link.endpoint : a.endpoint}"><button type="button" class="btn btn-dark btn-sm btn-block"><i class="fa fa-download"></i></button></a></td>
+                <td><a href="/${firstPath}/download/${a.link.endpoint ? a.link.endpoint : a.endpoint}pdf"><button type="button" class="btn btn-dark btn-sm btn-block"><i class="fa fa-download"></i></button></a></td>
             </tr>
         `);
     });

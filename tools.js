@@ -39,7 +39,6 @@ module.exports = {
             doc.end();
 
             const pdfStream = await getStream.buffer(doc);
-
             return pdfStream;
         } catch (error) {
             console.log(error);
