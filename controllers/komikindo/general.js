@@ -5,8 +5,8 @@ const baseURL = 'https://komikindo.id/';
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await get(baseURL);
-            const $ = cheerio.load(data.body);
+            const response = await get(baseURL);
+            const $ = cheerio.load(response.data);
 
             const obj = {};
             /* Menu */
