@@ -30,7 +30,8 @@ module.exports = {
 
             for (const image of images) {
                 if (image.endsWith(".gif")) continue;
-                const buffer = await require('got')(image).buffer();
+                const base64 = btoa(image);
+                const buffer = await require('got')(`https://bypass.kato-rest.us/image.php?q=${base64}`).buffer();
                 const img = doc.openImage(buffer);
                 doc.addPage({ size: [img.width, img.height] });
                 doc.image(img, 0, 0);
