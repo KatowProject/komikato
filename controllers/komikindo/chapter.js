@@ -18,7 +18,7 @@ module.exports = (req, res) => {
             const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
             const chapterimguri = chapter_image_url.replace('http://komikindo.id', mainUrl);
             const getImages = await get(chapterimguri);
-            const images = JSON.parse(getImages.body);
+            const images = JSON.parse(getImages.data);
             const $imgs = cheerio.load(images.content.rendered);
             $imgs('img').each((i, el) => {
                 const src = $imgs(el).attr('src');
