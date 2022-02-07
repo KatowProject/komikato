@@ -1,12 +1,11 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
-const mainUrl = 'https://komikindo-id.translate.goog';
-const query = "?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp";
+const mainUrl = 'https://komikindo.id';
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await get(`${mainUrl}/${req.params.query}${query}`);
+            const response = await get(`${mainUrl}/${req.params.query}`);
             const $ = cheerio.load(response.data);
             const main = $('#chimg');
 

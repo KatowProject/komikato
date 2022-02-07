@@ -6,7 +6,7 @@ const query = '?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp';
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await get(baseURL + query);
+            const data = await get(baseURL);
             const $ = cheerio.load(data.body);
 
             const obj = {};
@@ -17,7 +17,7 @@ const home = (req, res) => {
                     name: $(e).find('a').text(),
                     link: {
                         url: baseURL + $(e).find('a').attr('href'),
-                        endpoint: $(e).find('a').attr('href').replace(baseURL, '').replace(query, '')
+                        endpoint: $(e).find('a').attr('href').replace(baseURL, '')
                     }
                 });
             });
@@ -37,13 +37,13 @@ const home = (req, res) => {
                             thumb: $(f).find('img').attr('src').split('?')[0],
                             link: {
                                 url: $(f).find('*[itemprop="url"]').attr('href'),
-                                endpoint: $(f).find('*[itemprop="url"]').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('*[itemprop="url"]').attr('href').replace(baseURL, '')
                             },
                             last_upload: $(f).find('.datech').text(),
                             last_chapter: {
                                 name: $(f).find('.lsch > a').text(),
                                 url: $(f).find('.lsch > a').attr('href'),
-                                endpoint: $(f).find('.lsch > a').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('.lsch > a').attr('href').replace(baseURL, '')
                             }
                         });
                     });
@@ -75,13 +75,13 @@ const home = (req, res) => {
                             thumb: $(f).find('img').attr('src').split('?')[0],
                             link: {
                                 url: $(f).find('*[itemprop="url"]').attr('href'),
-                                endpoint: $(f).find('*[itemprop="url"]').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('*[itemprop="url"]').attr('href').replace(baseURL, '')
                             },
                             last_upload: $(f).find('.datech').text(),
                             last_chapter: {
                                 name: $(f).find('.lsch > a').text(),
                                 url: $(f).find('.lsch > a').attr('href'),
-                                endpoint: $(f).find('.lsch > a').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('.lsch > a').attr('href').replace(baseURL, '')
                             }
                         });
                     });
@@ -98,7 +98,7 @@ const home = (req, res) => {
                             name: $(f).find('a').attr('title').replace('Komik', '').trim(),
                             link: {
                                 url: $(f).find('a').attr('href'),
-                                endpoint: $(f).find('a').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('a').attr('href').replace(baseURL, '')
                             },
                             thumb: $(f).find('img').attr('src').split('?')[0],
                             score: $(f).find('.loveviews').text().trim()
@@ -114,7 +114,7 @@ const home = (req, res) => {
                             name: $(f).find('a').attr('title').replace('Manga', '').trim(),
                             link: {
                                 url: $(f).find('a').attr('href'),
-                                endpoint: $(f).find('a').attr('href').replace(baseURL, '').replace(query, '')
+                                endpoint: $(f).find('a').attr('href').replace(baseURL, '')
                             },
                             thumb: $(f).find('img').attr('src').split('?')[0],
                             score: $(f).find('.loveviews').text().trim()
@@ -142,7 +142,7 @@ const home = (req, res) => {
 const komiks = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await get(`${baseURL}daftar-komik/page/${req.params.number}${query}`);
+            const response = await get(`${baseURL}daftar-komik/page/${req.params.number}`);
             const $ = cheerio.load(response.data);
 
             const manga = [];
@@ -153,7 +153,7 @@ const komiks = (req, res) => {
                     title: $(m).find('a').attr('title'),
                     thumb: $(m).find('.limit > img').attr('src')?.split('?')[0],
                     link: {
-                        endpoint: $(m).find('a').attr('href').replace(baseURL, '').replace(query, ''),
+                        endpoint: $(m).find('a').attr('href').replace(baseURL, ''),
                         url: $(m).find('a').attr('href')
                     }
                 });
@@ -169,7 +169,7 @@ const komiks = (req, res) => {
 
             const pagination = [];
             $(main).find('.pagination .page-numbers').each((i, a) => {
-                const endpoint = `${$(a).attr('href')}`.replace(baseURL, '').replace(query, '');
+                const endpoint = `${$(a).attr('href')}`.replace(baseURL, '');
                 pagination.push({
                     name: $(a).text(),
                     url: $(a).attr('href') ? $(a).attr('href') : null,
@@ -187,7 +187,7 @@ const komiks = (req, res) => {
 const newestManga = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await get(`${baseURL}komik-terbaru/page/${req.params.number}${query}`);
+            const response = await get(`${baseURL}komik-terbaru/page/${req.params.number}`);
             const $ = cheerio.load(response.data);
 
             const manga = [];
@@ -198,7 +198,7 @@ const newestManga = (req, res) => {
                     title: $(m).find('a').attr('title'),
                     thumb: $(m).find('.limit > img').attr('src').split('?')[0],
                     link: {
-                        endpoint: $(m).find('a').attr('href').replace(baseURL, '').replace(query, ''),
+                        endpoint: $(m).find('a').attr('href').replace(baseURL, ''),
                         url: $(m).find('a').attr('href')
                     }
                 });
@@ -220,20 +220,20 @@ const komik = (req, res) => {
             let response = null;
             switch (type) {
                 case 'manga':
-                    response = await get(`${baseURL}manga/page/${num}${query}`);
+                    response = await get(`${baseURL}manga/page/${num}`);
                     break;
 
                 case 'manhua':
-                    response = await get(`${baseURL}manhua/page/${num}${query}`);
+                    response = await get(`${baseURL}manhua/page/${num}`);
                     break;
 
                 case 'manhwa':
-                    response = await get(`${baseURL}manhwa/page/${num}${query}`);
+                    response = await get(`${baseURL}manhwa/page/${num}`);
                     break;
 
                 case 'smut':
-                    if (num === '1') response = await get(`${baseURL}konten/smut/${query}`);
-                    else response = await get(`${baseURL}konten/smut/page/${num}${query}`);
+                    if (num === '1') response = await get(`${baseURL}konten/smut/`);
+                    else response = await get(`${baseURL}konten/smut/page/${num}`);
                     break;
             }
             const $ = cheerio.load(response.data);
@@ -273,7 +273,7 @@ const komik = (req, res) => {
 const getDetail = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await get(`${baseURL}komik/${req.params.endpoint}${query}`);
+            const response = await get(`${baseURL}komik/${req.params.endpoint}`);
             const $ = cheerio.load(response.data);
 
             const main = $('.infoanime');
@@ -336,7 +336,7 @@ const getDetail = (req, res) => {
                 const obj = {}
                 obj.title = $(e).find('.lchx').text();
                 obj.link = $(e).find('.lchx > a').attr('href');
-                obj.endpoint = $(e).find('.lchx > a').attr('href').replace(baseURL, '').replace(query, '');
+                obj.endpoint = $(e).find('.lchx > a').attr('href').replace(baseURL, '');
                 obj.download = {
                     pdf: `http://205.185.113.50/komik/download/${obj.endpoint}`
                 };
@@ -359,7 +359,7 @@ const search = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const pagination = req.params.pagination ? req.params.pagination : 1
-            const response = await get(`${baseURL}page/${pagination}/?s=${req.params.query}${query}`);
+            const response = await get(`${baseURL}page/${pagination}/?s=${req.params.query}`);
             const $ = cheerio.load(response.data);
 
             const data = {};
