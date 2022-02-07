@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const { get } = require('../../tools');
+const { get, generatePDF } = require('../../tools');
 const baseURL = 'https://komikindo.id/';
 
 const home = (req, res) => {
@@ -397,4 +397,31 @@ const search = (req, res) => {
     });
 }
 
-module.exports = { home, komiks, newestManga, komik, getDetail, search };
+const getImages = async (req, res) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await get(`${baseURL}/${req.params.endpoint}`);
+            const $ = cheerio.load(response.data);
+
+            const data = [];
+            const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
+            const chapterimguri = chapter_image_url.replace('http://komikindo.id', baseURL);
+
+            const getImages = await get(chapterimguri);
+            const images = getImages.data;
+            const $imgs = cheerio.load(images.content.rendered);
+            $imgs('img').each((i, el) => {
+                const src = $imgs(el).attr('src');
+                const url = src.replace('https://komikcdn.me', "https://komikcdn-me.translate.goog");
+                data.push(url);
+            });
+
+            resolve({ success: true, data });
+        } catch (error) {
+            console.log(error);
+            reject({ success: false, message: error.message });
+        }
+    });
+}
+
+module.exports = { home, komiks, newestManga, komik, getDetail, search, getImages };

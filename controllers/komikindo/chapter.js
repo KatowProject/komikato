@@ -34,7 +34,7 @@ module.exports = (req, res) => {
             }
 
             data.download_link = {
-                pdf: `http://205.185.113.50/komik/download/${req.params.query}`,
+                pdf: `/komikindo/download/${req.params.query}`,
             };
 
             resolve({ success: true, data });
