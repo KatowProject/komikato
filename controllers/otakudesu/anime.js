@@ -113,7 +113,9 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
         const query = req.query;
 
         const mirror = Object.keys(query);
-        const url = `${mainUrl}/${endpoint}?${mirror[0]}=${query[mirror[0]]}`;
+        let url = null;
+        if (mirror.length === 0) url = `${mainUrl}/${endpoint}/`;
+        else url = `${mainUrl}/${endpoint}/?${mirror[0]}=${query[mirror[0]]}`;
         const response = await get(url);
         const $ = cheerio.load(response.data);
         const main = $('#venkonten');

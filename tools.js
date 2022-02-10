@@ -49,7 +49,7 @@ module.exports = {
     getVideoSrc: async (url) => {
         try {
             const response = await got(url);
-            const $ = cheerio.load(response.data);
+            const $ = cheerio.load(response.body);
             let source1 = $.html().search('"file":');
             let source2 = $.html().search("'file':");
             let source3 = $('source').attr('src');

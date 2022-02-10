@@ -1,11 +1,12 @@
 <?php
     $query = $_GET['q'];
-    if ($query == "") echo json_encode([
-        "status" => "error",
-        "message" => "No query specified"
-    ]);
+    if ($query == "") {
+        echo json_encode(["status" => "error", "message" => "No query specified"]);
+        
+        return;
+    }
 
-    $mimes  = array(
+    $mimes  = [
         IMAGETYPE_GIF => "image/gif",
         IMAGETYPE_JPEG => "image/jpg",
         IMAGETYPE_PNG => "image/png",
@@ -22,13 +23,26 @@
         IMAGETYPE_IFF => "image/iff",
         IMAGETYPE_WBMP => "image/wbmp",
         IMAGETYPE_XBM => "image/xbm",
-        IMAGETYPE_ICO => "image/ico");
+        IMAGETYPE_ICO => "image/ico"
+    ];
+
     $url = base64_decode($query);
-    //show image
     $check_mime = exif_imagetype($url);
     $mime = $mimes[$check_mime];
-    
+    if (!$mime) {
+        echo json_encode(["status" => "error","message" => "Invalid Mime" ]);
+        return;
+    }
+
+    $filename = basename($url);
+    $filesize = get_headers($url, 1)["Content-Length"];
+
+    header_remove("X-Powered-By");
+    header("Content-Range: bytes 0-".$filesize."/".$filesize);
+    header("Content-Length: " . $filesize);
     header("Content-type: $mime");
-    readfile($url);
-    
+    header("Content-Disposition: inline; filename=$filename");
+
+
+    return readfile($url);
 
