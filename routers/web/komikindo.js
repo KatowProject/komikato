@@ -59,7 +59,7 @@ router.get('/download/:endpoint/:type', async (req, res) => {
 
                 for (const image of images.data) {
                     const base64 = btoa(image);
-                    const buffer = await require('got')(`https://bypass.kato-rest.us/image/${base64}`).buffer();
+                    const buffer = await require('got')(`https://bypass.kato-rest.us/url/${base64}`).buffer();
                     const img = pdf.openImage(buffer);
                     pdf.addPage({ size: [img.width, img.height] });
                     pdf.image(img, 0, 0);
