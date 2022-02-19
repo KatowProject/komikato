@@ -1,10 +1,14 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
 const mainUrl = 'https://komikindo.id';
+const db = require('../../database');
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const cache = await db.get('komikindo', req.params.query);
+            if (cache) return resolve({ success: true, data: cache });
+
             const response = await get(`${mainUrl}/${req.params.query}`);
             const $ = cheerio.load(response.data);
             const main = $('#chimg');
@@ -38,6 +42,8 @@ module.exports = (req, res) => {
             };
 
             resolve({ success: true, data });
+
+            db.set('komikindo', req.params.query, data);
         } catch (error) {
             reject(error);
         }

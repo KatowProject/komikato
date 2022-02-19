@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
-const baseURL = 'https://komiku-id.translate.goog';
+const baseURL = 'https://komiku.id';
 
 const home = (req, res) => {
     return new Promise(async (resolve, reject) => {

@@ -15,7 +15,7 @@ module.exports = {
                 if (e?.response?.status !== 200) {
                     //str to base64
                     const uri = btoa(url);
-                    const response = await axios.get(`https://bypass.kato-rest.us/?q=${uri}`, option);
+                    const response = await axios.get(`https://bypass.kato-rest.us/url/${uri}`, option);
 
                     return resolve(response);
                 }
@@ -31,7 +31,7 @@ module.exports = {
             for (const image of images) {
                 if (image.endsWith(".gif")) continue;
                 const base64 = btoa(image);
-                const buffer = await require('got')(`https://bypass.kato-rest.us/image.php?q=${base64}`).buffer();
+                const buffer = await require('got')(`https://bypass.kato-rest.us/url/${base64}`).buffer();
                 const img = doc.openImage(buffer);
                 doc.addPage({ size: [img.width, img.height] });
                 doc.image(img, 0, 0);

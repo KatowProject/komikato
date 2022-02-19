@@ -1,13 +1,12 @@
 const cheerio = require('cheerio');
 const { get } = require('../../tools');
-const baseURL = 'https://komiku-id.translate.goog';
-const query = "?_x_tr_sl=ja&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp";
+const baseURL = 'https://komiku.id';
 
 module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const endpoint = req.params.endpoint;
-            const response = await get(`${baseURL}/ch/${endpoint}${query}`);
+            const response = await get(`${baseURL}/ch/${endpoint}`);
             const $ = cheerio.load(response.data);
 
             const content = $("#article");
