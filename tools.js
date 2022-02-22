@@ -6,14 +6,18 @@ const got = require('got');
 
 module.exports = {
     get: async (url, option = {}) => {
-        const response = await axios.get(url, option);
-        if (response.status !== 200) {
-            const res = await axios.get(`https://bypass.kato-rest.us/url/${btoa(url)}`);
+        try {
+            const response = await axios.get(url, option);
+            return response;
+        } catch (err) {
+            //get code status
+            const code = err.response.status;
+            if (code !== 200) {
+                const res = await axios.get(`https://bypass.kato-rest.us/url/${btoa(url)}`);
 
-            return res;
+                return res;
+            }
         }
-
-        return response;
     },
 
     generatePDF: async (images) => {
