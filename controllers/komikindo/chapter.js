@@ -10,7 +10,8 @@ module.exports = (req, res) => {
             const response = await get(`${mainUrl}/${req.params.query}`, {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-                    'Referrer': 'https://komikindo.id/'
+                    'Referrer': 'https://komikindo.id/',
+                    'Cookie': '__cf_bm=_Va2qqNk4vYVQCK5Qd1nGMh82QggItLKu_m70_6Qrhk-1645489657-0-AaRMvGk0hsHocnPfzma2jbig/VkL6vnPtWdw3mHQh47IVmgK0/q/j5cZ2ToOABOgb+x5/krOFH7oRx1L25YrCdr4zu/u0kw14ueynaTKlZQ5RVE0TqCYhYHFJByv2U/riw==; _ga=GA1.2.1538299184.1645489689; _gid=GA1.2.2059771488.1645489689'
                 }
             });
             const $ = cheerio.load(response.data);
