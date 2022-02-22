@@ -15,9 +15,8 @@ module.exports = {
                 if (e?.response?.status !== 200) {
                     //str to base64
                     const uri = btoa(url);
-                    const response = await axios.get(`https://bypass.kato-rest.us/url/${uri}`, option);
-
-                    return resolve(response);
+                    const responses = await axios.get(`https://bypass.kato-rest.us/url/${uri}`, option);
+                    return resolve(responses);
                 }
                 reject(e);
             }
