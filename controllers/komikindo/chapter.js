@@ -7,8 +7,6 @@ module.exports = (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
             const cache = await db.get('komikindo', req.params.query);
-            if (cache) return resolve({ success: true, data: cache });
-
             const response = await get(`${mainUrl}/${req.params.query}`);
             const $ = cheerio.load(response.data);
             const main = $('#chimg');
@@ -19,18 +17,23 @@ module.exports = (req, res) => {
             data.chapter_endpoint = `${req.params.query}/`;
 
             data.chapter_images = [];
-            const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
-            const chapterimguri = chapter_image_url.replace('http://komikindo.id', mainUrl);
-            const getImages = await get(chapterimguri);
-            const images = getImages.data;
-            const $imgs = cheerio.load(images.content.rendered);
-            $imgs('img').each((i, el) => {
-                const src = $imgs(el).attr('src');
-                const url = src.replace('https://komikcdn.me', "https://komikcdn-me.translate.goog");
-                data.chapter_images.push(url);
-            });
-            data.chapter_length = data.chapter_images.length;
+            if (cache) {
+                data.chapter_images = cache.chapter_images;
+            } else {
+                const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
+                const chapterimguri = chapter_image_url.replace('http://komikindo.id', mainUrl);
+                const getImages = await get(chapterimguri);
+                const images = getImages.data;
+                const $imgs = cheerio.load(images.content.rendered);
+                $imgs('img').each((i, el) => {
+                    const src = $imgs(el).attr('src');
+                    const url = src.replace('https://komikcdn.me', "https://komikcdn-me.translate.goog");
+                    data.chapter_images.push(url);
+                });
+                db.set('komikindo', req.params.query, data.chapter_images);
+            }
 
+            data.chapter_length = data.chapter_images.length;
             const nav = $('.navig > .nextprev');
             data.chapter = {
                 previous: $(nav).find('[rel=prev]').attr('href') ? $(nav).find('[rel=prev]').attr('href').replace(mainUrl, '') : null,
@@ -42,8 +45,6 @@ module.exports = (req, res) => {
             };
 
             resolve({ success: true, data });
-
-            db.set('komikindo', req.params.query, data);
         } catch (error) {
             reject(error);
         }
