@@ -32,7 +32,7 @@ module.exports = {
                 switch (site) {
                     case 'komikindo':
                         table = new db.table('komikindo');
-                        if (typeof data !== 'array') reject('data must be array');
+                        if (typeof data !== 'array') return reject('data must be array');
                         break;
                     case 'otakudesu':
                         table = new db.table('otakudesu');

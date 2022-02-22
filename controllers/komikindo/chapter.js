@@ -30,6 +30,7 @@ module.exports = (req, res) => {
                     const url = src.replace('https://komikcdn.me', "https://komikcdn-me.translate.goog");
                     data.chapter_images.push(url);
                 });
+                console.log(data.chapter_images);
                 db.set('komikindo', req.params.query, data.chapter_images);
             }
 
