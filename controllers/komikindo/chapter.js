@@ -18,7 +18,7 @@ module.exports = (req, res) => {
 
             data.chapter_images = [];
             if (cache) {
-                data.chapter_images = cache.chapter_images;
+                data.chapter_images = cache;
             } else {
                 const chapter_image_url = $(`link[rel="alternate"][type="application/json"]`).attr('href');
                 const chapterimguri = chapter_image_url.replace('http://komikindo.id', mainUrl);
