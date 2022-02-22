@@ -32,7 +32,7 @@ module.exports = {
                 switch (site) {
                     case 'komikindo':
                         table = new db.table('komikindo');
-                        if (Object.keys(data).length === 0 || data.chapter_images.length === 0) return reject('No chapter images');
+                        if (typeof data !== 'array') reject('data must be array');
                         break;
                     case 'otakudesu':
                         table = new db.table('otakudesu');
