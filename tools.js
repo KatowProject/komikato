@@ -9,7 +9,11 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 const response = await axios.get(url, option);
+                if (response.data === undefined) {
+                    const ress = await axios.get(`https://bypass/kato-rest.us/url/${btoa(url)}`);
 
+                    return resolve(ress.data);
+                }
                 return resolve(response);
             } catch (e) {
                 if (e?.response?.status !== 200) {
