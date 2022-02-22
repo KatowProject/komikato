@@ -5,26 +5,15 @@ const axios = require('axios');
 const got = require('got');
 
 module.exports = {
-    get: (url, option = {}) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await axios.get(url, option);
-                if (response.data === undefined) {
-                    const ress = await axios.get(`https://bypass/kato-rest.us/url/${btoa(url)}`);
+    get: async (url, option = {}) => {
+        const response = await axios.get(url, option);
+        if (response.status !== 200) {
+            const res = await axios.get(`https://bypass.kato-rest.us/url/${btoa(url)}`);
 
-                    return resolve(ress.data);
-                }
-                return resolve(response);
-            } catch (e) {
-                if (e?.response?.status !== 200) {
-                    //str to base64
-                    const uri = btoa(url);
-                    const responses = await axios.get(`https://bypass.kato-rest.us/url/${uri}`, option);
-                    return resolve(responses);
-                }
-                reject(e);
-            }
-        });
+            return res;
+        }
+
+        return response;
     },
 
     generatePDF: async (images) => {
