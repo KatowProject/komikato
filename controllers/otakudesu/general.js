@@ -1,6 +1,6 @@
 const { get } = require('../../tools');
 const cheerio = require('cheerio');
-const baseURL = 'https://otakudesu.pro';
+const baseURL = 'https://otakudesu.live';
 
 const home = (req, res) => new Promise(async (resolve, reject) => {
     try {
