@@ -385,7 +385,7 @@ $('.dropdown-item').on('click', function () {
     const mirror = $(this).data('query');
     const domain = location.origin;
 
-    $.getJSON(`${domain}/api/otakudesu/anime/eps/${endpoint}${mirror}`, function (result) {
+    $.getJSON(`${domain}/api/otakudesu/anime/eps/${endpoint}/?id=${mirror}`, function (result) {
         const stream_link = result.data.stream_link;
 
         $('#my-video').length === 0 ? true : videojs('my-video').dispose();

@@ -13,10 +13,9 @@
     <hr>
     <br>
     <div class="row mt-4" id="video-player">
-        <video id="my-video" class="video-js mx-auto" controls preload="auto" width="800" height="480"
-            poster="https://cdn.discordapp.com/emojis/746208811848695849.png" data-setup="{}">
-            <source src="<%=stream_link%>" type="video/mp4" />
-        </video>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="<%= stream_link %>" allowfullscreen></iframe>
+        </div>
     </div>
 
     <div class="row mt-3 mx-auto" style="width: 200px;">

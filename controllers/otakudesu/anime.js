@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
-const { get, getVideoSrc } = require('../../tools');
-const mainUrl = 'https://otakudesu.live';
+const { get, getVideoSrc, post } = require('../../tools');
+const mainUrl = 'https://otakudesu.site';
+const qs = require('querystring');
 
 const detail = (req, res) => new Promise(async (resolve, reject) => {
     try {
@@ -109,18 +110,15 @@ const batch = (req, res) => new Promise(async (resolve, reject) => {
 
 const episode = (req, res) => new Promise(async (resolve, reject) => {
     try {
-        const endpoint = req.params.endpoint;
-        const query = req.query;
+        const obj = {};
 
-        const mirror = Object.keys(query);
-        let url = null;
-        if (mirror.length === 0) url = `${mainUrl}/${endpoint}/`;
-        else url = `${mainUrl}/${endpoint}/?${mirror[0]}=${query[mirror[0]]}`;
-        const response = await get(url);
+        const endpoint = req.params.endpoint;
+        const getID = req.query.id;
+
+        const response = await get(mainUrl + "/" + endpoint);
         const $ = cheerio.load(response.data);
         const main = $('#venkonten');
 
-        const obj = {};
         obj.title = $(main).find('.venutama > .posttl').text().trim();
         obj.eps_list = [];
         $(main).find('#selectcog > option').each((i, a) => {
@@ -142,17 +140,34 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
             endpoint: $(main).find('.flir > a:nth-of-type(2)').attr('href')?.replace(mainUrl, ''),
         }
         const stream_link = $(main).find('#lightsVideo').find('iframe').attr('src');
-        if (!stream_link) obj.stream_link = '-';
+        if (!stream_link)
+            obj.stream_link = '-';
+        else if (stream_link.includes("desustream"))
+            obj.stream_link = await getVideoSrc(stream_link)
+        else
+            obj.stream_link = stream_link;
 
-        if (stream_link.includes('.html')) {
-            obj.stream_link = stream_link;
-        } else if (stream_link.includes('gdriveplayer')) {
-            obj.stream_link = stream_link;
-        } else if (stream_link.includes('yourupload')) {
-            obj.stream_link = stream_link;
-        } else if (stream_link.includes('mega')) {
-            obj.stream_link = stream_link;
-        } else obj.stream_link = await getVideoSrc(stream_link);
+        if (getID) {
+            const encodeID = JSON.parse(Buffer.from(getID, 'base64').toString('ascii'));
+            encodeID.action = "2a3505c93b0035d3f455df82bf976b84";
+            encodeID.nonce = "be64994085";
+
+            const id = qs.stringify(encodeID);
+            const response = await post("https://otakudesu.site/wp-admin/admin-ajax.php", id, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+                }
+            }
+            );
+
+            const dataVideo = response.data.data;
+            const decodeEmbed = Buffer.from(dataVideo, 'base64').toString('ascii');
+            const $ = cheerio.load(decodeEmbed);
+
+            const url = $("iframe").attr("src");
+            obj.stream_link = url;
+        }
 
         obj.mirror_stream_link = [];
         $(main).find('.mirrorstream > ul').each((i, a) => {
@@ -164,7 +179,7 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
                     $(a).find('li').each((j, b) => {
                         temp.push({
                             title: $(b).find('a').text().trim(),
-                            url: $(b).find('a').attr('href'),
+                            url: $(b).find('a').attr('data-content'),
                         });
                     });
 
@@ -178,7 +193,7 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
                     $(a).find('li').each((j, b) => {
                         temp.push({
                             title: $(b).find('a').text(),
-                            url: $(b).find('a').attr('href'),
+                            url: $(b).find('a').attr('data-content'),
                         });
                     });
 
@@ -207,7 +222,8 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
 
         resolve({ success: true, data: obj });
     } catch (err) {
-        reject({ success: false, error: err.message });
+        console.log(err);
+        reject(err.message);
     }
 });
 

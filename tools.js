@@ -20,6 +20,11 @@ module.exports = {
         }
     },
 
+    post: async (url, data, option) => {
+        const response = await axios.post(url, data, option);
+        return response;
+    },
+
     generatePDF: async (images) => {
         try {
             const doc = new PDFDocument({ autoFirstPage: false });
@@ -44,23 +49,22 @@ module.exports = {
     },
     getVideoSrc: async (url) => {
         try {
-            const response = await got(url);
-            const $ = cheerio.load(response.body);
-            let source1 = $.html().search('"file":');
-            let source2 = $.html().search("'file':");
-            let source3 = $('source').attr('src');
-            let source4 = $('iframe').attr('src');
+            const response = await axios.get(url);
+            const data = response.data;
+            const $ = cheerio.load(data);
 
-            if (source1 !== -1) {
-                const end = $.html().indexOf('","');
-                return $.html().substring(source1 + 8, end);
-            } else if (source2 !== -1) {
-                const end = $.html().indexOf("','");
-                return $.html().substring(source2 + 8, end);
-            } else if (source3) {
-                return source3;
-            }
-            return "-";
+            let src = null;
+            let src1 = $("source");
+            let src2 = data.split("sources: [");
+            let src3 = $("iframe");
+            if (src1.length > 0)
+                src = src1.attr("src");
+            else if (src2.length > 1)
+                src = src2[1].split("]")[0].split("'file':")[1].split("'")[1];
+            else
+                src = src3.attr("src");
+
+            return src;
         } catch (error) {
             return "-";
         }
