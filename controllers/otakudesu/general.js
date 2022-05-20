@@ -1,6 +1,6 @@
 const { get } = require('../../tools');
 const cheerio = require('cheerio');
-const baseURL = 'https://otakudesu.site';
+const baseURL = 'https://otakudesu.tube';
 
 const home = (req, res) => new Promise(async (resolve, reject) => {
     try {
@@ -21,7 +21,7 @@ const home = (req, res) => new Promise(async (resolve, reject) => {
                 hari: $(el).find('.epztipe').text().trim(),
                 release_date: $(el).find('.newnime').text().trim(),
                 url: $(el).find('.thumb > a').attr('href'),
-                endpoint: $(el).find('.thumb > a').attr('href').replace(baseURL, '')
+                endpoint: $(el).find('.thumb > a').attr('href').split('/')[4],
             });
         });
         obj.complete = [];
@@ -33,7 +33,7 @@ const home = (req, res) => new Promise(async (resolve, reject) => {
                 skor: $(el).find('.epztipe').text().trim(),
                 release_date: $(el).find('.newnime').text().trim(),
                 url: $(el).find('.thumb > a').attr('href'),
-                endpoint: $(el).find('.thumb > a').attr('href').replace(baseURL, '')
+                endpoint: $(el).find('.thumb > a').attr('href').split('/')[4],
             });
         });
 

@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const { get, getVideoSrc, post } = require('../../tools');
-const mainUrl = 'https://otakudesu.site';
+const mainUrl = 'https://otakudesu.tube';
 const qs = require('querystring');
 
 const detail = (req, res) => new Promise(async (resolve, reject) => {
@@ -58,7 +58,7 @@ const detail = (req, res) => new Promise(async (resolve, reject) => {
                         temp.push({
                             title: $(j).find('a').text(),
                             url: $(j).find('a').attr('href'),
-                            endpoint: $(j).find('a').attr('href').replace(mainUrl, ''),
+                            endpoint: $(j).find('a').attr('href').replace(mainUrl + "/episode", ''),
                         });
                     });
                     obj.eps.push({
@@ -115,9 +115,10 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
         const endpoint = req.params.endpoint;
         const getID = req.query.id;
 
-        const response = await get(mainUrl + "/" + endpoint);
+        const response = await get(mainUrl + "/episode/" + endpoint);
         const $ = cheerio.load(response.data);
         const main = $('#venkonten');
+        const script = $("body").find("script:contains('nonce:a')").html();
 
         obj.title = $(main).find('.venutama > .posttl').text().trim();
         obj.eps_list = [];
@@ -149,17 +150,24 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
 
         if (getID) {
             const encodeID = JSON.parse(Buffer.from(getID, 'base64').toString('ascii'));
-            encodeID.action = "2a3505c93b0035d3f455df82bf976b84";
-            encodeID.nonce = "be64994085";
+            const src = script.split(";")[2];
 
-            const id = qs.stringify(encodeID);
-            const response = await post("https://otakudesu.site/wp-admin/admin-ajax.php", id, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-                }
-            }
-            );
+            const action = src.split('action:"');
+            const f_action = action[1].split('"')[0];
+            const s_action = action[2].split('"')[0];
+            const t_action = action[3].split('"')[0];
+
+            let response = await post("https://otakudesu.tube/wp-admin/admin-ajax.php", `action=${s_action}`, {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            });
+            encodeID.nonce = response.data.data;
+            encodeID.action = t_action;
+
+            response = await post("https://otakudesu.tube/wp-admin/admin-ajax.php", qs.stringify(encodeID), {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
+            });
 
             const dataVideo = response.data.data;
             const decodeEmbed = Buffer.from(dataVideo, 'base64').toString('ascii');
