@@ -127,7 +127,7 @@ const episode = (req, res) => new Promise(async (resolve, reject) => {
             obj.eps_list.push({
                 title: $(a).text(),
                 url: url,
-                endpoint: url.replace(mainUrl, ''),
+                endpoint: url.replace(mainUrl + "/episode", ''),
             });
         });
         obj.all_eps = {
