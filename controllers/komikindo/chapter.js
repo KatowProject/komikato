@@ -25,6 +25,7 @@ module.exports = (req, res) => {
                 const getImages = await get(chapterimguri);
                 const images = getImages.data;
                 const $imgs = cheerio.load(images.content.rendered);
+                console.log($imgs);
                 $imgs('img').each((i, el) => {
                     const src = $imgs(el).attr('src');
                     const url = src.replace('https://komikcdn.me', "https://komikcdn-me.translate.goog");

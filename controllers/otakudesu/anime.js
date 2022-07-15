@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const { get, getVideoSrc, post } = require('../../tools');
-const mainUrl = 'https://otakudesu.tube';
+const mainUrl = 'https://otakudesu.watch';
 const qs = require('querystring');
 
 const detail = (req, res) => new Promise(async (resolve, reject) => {
